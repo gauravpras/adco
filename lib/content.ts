@@ -167,8 +167,7 @@ export const contactInfo = {
 
 export const heroContent = {
   eyebrow: "Est. Bangkok",
-  welcomeLine: "Welcome to the AdCoSphere",
-  welcomeLineRows: ["Welcome", "to the", "AdCoSphere"] as const,
+  welcomeLine: "Welcome to AdCoSphere",
   headline: siteMeta.tagline,
   headlineLine1: "Your Digital",
   headlineLine2: "Launchpad for Business.",
