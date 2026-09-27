@@ -1,8 +1,9 @@
 import { createHash } from "crypto";
 import { getContactInterestOptions } from "@/lib/content";
-import { contactSchema } from "@/lib/validation";
+import { contactSchema, quickContactSchema } from "@/lib/validation";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import type { ContactFormValues } from "@/lib/validation";
 
 function interestLabels(values: string[]): string {
   const options = getContactInterestOptions();
@@ -20,9 +21,23 @@ export async function POST(request: Request) {
   }
 
   const parsed = contactSchema.safeParse(body);
-  if (!parsed.success) {
+  const quick = quickContactSchema.safeParse(body);
+
+  let data: ContactFormValues | null = null;
+  if (parsed.success) {
+    data = parsed.data;
+  } else if (quick.success) {
+    data = {
+      ...quick.data,
+      businessName: "Quick CTA enquiry",
+      phone: "—",
+      interests: ["not-sure"],
+    };
+  }
+
+  if (!data) {
     return NextResponse.json(
-      { error: parsed.error.issues[0]?.message ?? "Invalid form data." },
+      { error: parsed.error?.issues[0]?.message ?? "Invalid form data." },
       { status: 400 },
     );
   }
@@ -41,7 +56,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const data = parsed.data;
   const resend = new Resend(apiKey);
 
   const bucket = Math.floor(Date.now() / 60_000);

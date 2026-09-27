@@ -6,14 +6,19 @@
 export const placeholders = {
   // TODO: client to confirm final pricing
   packagePricing: "฿[PLACEHOLDER]",
-  proofStatBusinesses: "[X] businesses digitally onboarded",
-  proofStatCampaigns: "[X]+ campaigns launched",
+  statBusinessesOnboarded: "[X]+",
+  statClientSatisfaction: "[X]%",
+  statYearsExpertise: "[X]+",
+  annualDiscount: "[X]",
+  officeHours: "Mon–Fri (9am – 5pm) Bkk time",
+  fullAddress: "Bangkok, Thailand",
   // TODO: confirm before launch
-  email: "hello@adcogroup.com",
-  phone: "[PLACEHOLDER — phone pending confirmation]",
+  email: "gtechsolbiz@gmail.com",
+  phone: "[PLACEHOLDER, phone pending confirmation]",
   serviceAreaNote: "[confirm if service area extends beyond Bangkok]",
   testimonialClientName:
     "TopWoods", // TODO: verify client name — source shows TopWoods logo but quote references Techflix
+  trustBadgeMore: "[+ more — PLACEHOLDER logos]",
 } as const;
 
 export type ServiceIconKey =
@@ -46,6 +51,10 @@ export interface Package {
   includes: string[];
   bestFor: string;
   priceLabel: string;
+  priceMonthly?: string;
+  priceAnnual?: string;
+  teaserOneLiner?: string;
+  isMostPopular?: boolean;
   isCustom?: boolean;
 }
 
@@ -71,8 +80,28 @@ export interface ProcessStep {
 
 export interface StatItem {
   value: string;
-  label: string;
+  title: string;
+  description: string;
   isPlaceholder?: boolean;
+  /** Numeric target for count-up animation; omit for non-numeric stats */
+  countTarget?: number;
+  suffix?: string;
+}
+
+export interface WorkGridItem {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  href: string;
+  imageAlt: string;
+}
+
+export interface ServicesShowcaseTab {
+  index: string;
+  slug: string;
+  label: string;
+  serviceId: string;
 }
 
 export const siteMeta = {
@@ -83,10 +112,9 @@ export const siteMeta = {
     "To digitally onboard every business in Bangkok, ensuring their digital presence is as strong as their physical presence.",
   defaultTitle: "AdCo Group | Your Digital Launchpad for Business",
   defaultDescription:
-    "Bangkok-based digital marketing and digital onboarding. Websites, SEO, social, ads, and analytics — built around your business.",
+    "Bangkok-based digital marketing and digital onboarding. Websites, SEO, social, ads, and analytics, built around your business.",
   instagram: "@adcosphere",
   instagramUrl: "https://www.instagram.com/adcosphere",
-  linktreeUrl: "https://linktr.ee/adcogroup",
   location: "Bangkok, Thailand",
 } as const;
 
@@ -99,7 +127,9 @@ export const navLinks = [
 export const footerContent = {
   newsletterTitle: "Stay connected",
   newsletterDescription:
-    "Digital marketing tips for Bangkok businesses — straight to your inbox.",
+    "Digital marketing tips for Bangkok businesses, straight to your inbox.",
+  brandStatement:
+    "With AdCo, your business gets more than a digital presence, a system that keeps working after launch.",
   columns: [
     {
       title: "Navigate",
@@ -116,43 +146,224 @@ export const footerContent = {
       title: "Social",
       links: [
         { href: siteMeta.instagramUrl, label: siteMeta.instagram, external: true },
-        { href: siteMeta.linktreeUrl, label: "Linktree", external: true },
       ],
     },
   ],
+} as const;
+
+export const headerContact = {
+  phone: placeholders.phone,
+  email: placeholders.email,
+  auditCta: { label: "Book a Free Audit", href: "/contact" },
 } as const;
 
 export const contactInfo = {
   email: placeholders.email,
   phone: placeholders.phone,
   location: siteMeta.location,
+  fullAddress: placeholders.fullAddress,
+  officeHours: placeholders.officeHours,
 } as const;
 
 export const heroContent = {
   eyebrow: "Est. Bangkok",
+  welcomeLine: "Welcome to the AdCoSphere",
+  welcomeLineRows: ["Welcome", "to the", "AdCoSphere"] as const,
   headline: siteMeta.tagline,
+  headlineLine1: "Your Digital",
+  headlineLine2: "Launchpad for Business.",
   subhead:
-    "From digital onboarding and websites to SEO, social, advertising, and analytics — we build custom digital systems around the business you envision.",
+    "From digital onboarding and websites to SEO, social, advertising, and analytics, we build custom digital systems around the business you envision.",
   primaryCta: { label: "Get Your Free Digital Audit", href: "/contact" },
   secondaryCta: { label: "See what we do", href: "/solutions" },
 } as const;
 
-export const proofStripStats: StatItem[] = [
-  {
-    value: "70,000+",
-    label: "organic reach generated for clients",
-  },
-  {
-    value: placeholders.proofStatBusinesses,
-    label: "businesses digitally onboarded",
-    isPlaceholder: true,
-  },
-  {
-    value: placeholders.proofStatCampaigns,
-    label: "campaigns launched",
-    isPlaceholder: true,
-  },
+export const heroTags = [
+  "Digital Onboarding",
+  "Websites",
+  "SEO & Social",
+  "Advertising & Analytics",
+] as const;
+
+export const statsSection = {
+  headline: "Our work speaks through numbers.",
+  cta: { label: "Start Your Audit", href: "/contact" },
+  stats: [
+    {
+      value: "70,000+",
+      title: "Organic reach generated",
+      description: "Real reach delivered for client campaigns.",
+      countTarget: 70000,
+      suffix: "+",
+    },
+    {
+      value: `${placeholders.statBusinessesOnboarded}`,
+      title: "Businesses digitally onboarded",
+      description: "Placeholder, client to confirm final count.",
+      isPlaceholder: true,
+    },
+    {
+      value: placeholders.statClientSatisfaction,
+      title: "Client satisfaction rate",
+      description: "Placeholder, client to confirm.",
+      isPlaceholder: true,
+    },
+    {
+      value: `${placeholders.statYearsExpertise}`,
+      title: "Years of expertise",
+      description: "Placeholder, client to confirm.",
+      isPlaceholder: true,
+    },
+  ] satisfies StatItem[],
+};
+
+export const splitStatement = {
+  headline: "From invisible to unmissable.",
+  supporting: "Digital systems that grow as fast as your business does.",
+  imageAlt: "Abstract AdCo brand visual — replace before launch",
+} as const;
+
+export const featureShowcase = {
+  headline: "Your goals, our priority.",
+  subhead:
+    "From first audit to ongoing growth, every recommendation starts with your business, not our package.",
+  features: [
+    {
+      title: "Fast, direct communication",
+      description: "Real answers from a real team, not a ticket queue.",
+    },
+    {
+      title: "Reporting that means something",
+      description: "Every report answers: what happened, why, and what we do next.",
+    },
+    {
+      title: "Custom to the tea",
+      description:
+        "No two businesses get the same plan. Yours is built around your goals, budget, and audience.",
+    },
+  ],
+  mockupCaption: "Sample performance summary, your reports are tailored to your business.",
+} as const;
+
+export const clientWinsSection = {
+  eyebrow: "Client wins",
+} as const;
+
+export const servicesTeaser = {
+  sectionLabel: "Services",
+  cta: { label: "See all services & pricing →", href: "/solutions" },
+  items: [
+    {
+      index: "01",
+      label: "Digital Onboarding",
+      serviceId: "digital-onboarding",
+    },
+    {
+      index: "02",
+      label: "Website Design & Development",
+      serviceId: "website-design",
+    },
+    {
+      index: "03",
+      label: "SEO & Local Presence",
+      serviceId: "google-business",
+    },
+    {
+      index: "04",
+      label: "Social & Paid Advertising",
+      serviceId: "social-media",
+    },
+  ],
+} as const;
+
+export const testimonialSpotlight = {
+  spotlightId: "petal-story" as const,
+  trustLine:
+    "Businesses across Bangkok trust AdCo with their digital presence.",
+  badgeNames: ["J Lim", "Petal Story", placeholders.testimonialClientName],
+} as const;
+
+export const teamStrip = {
+  headline: "A small team, fully invested in your business.",
+  line: "Strategists, designers, and marketers working as your digital team, not a rotating account manager.",
+} as const;
+
+export const pricingTeaser = {
+  cta: { label: "See full pricing & packages →", href: "/solutions" },
+  packageSlugs: ["digital-launch", "digital-growth", "digital-scale"] as const,
+} as const;
+
+export const pricingToggle = {
+  monthly: "Monthly",
+  annual: "Annual",
+  annualBadge: `Save ${placeholders.annualDiscount}%`, // TODO: client to confirm final pricing
+} as const;
+
+/** @deprecated use statsSection.stats */
+export const proofStripStats: StatItem[] = statsSection.stats;
+
+export const splitHeadlineBand = splitStatement;
+
+export const servicesShowcase = {
+  sectionLabel: servicesTeaser.sectionLabel,
+  seeAllLabel: servicesTeaser.cta.label,
+  seeAllHref: servicesTeaser.cta.href,
+  seePricingLabel: "See packages",
+  seePricingHref: "/solutions#packages-heading",
+  tabs: servicesTeaser.items.map((item) => ({
+    index: item.index,
+    slug: item.serviceId,
+    label: item.label.split(" ")[0] ?? item.label,
+    serviceId: item.serviceId,
+  })) satisfies ServicesShowcaseTab[],
+};
+
+export const processSection = {
+  headline: "Our process",
+  subhead:
+    "Four stages keep you informed from first audit through ongoing optimization.",
+  cta: { label: "Schedule a Free Audit", href: "/contact" },
+} as const;
+
+export const successStoriesSection = {
+  titleLines: ["Success", "stories"],
+  subhead: "Our work speaks for itself, but our clients say it even better.",
+} as const;
+
+export const localBusinessesSection = {
+  title: "Local Businesses we've worked with",
+  subhead: "Bangkok brands we are proud to partner with.",
+} as const;
+
+export type ClientLogoPlaceholder = {
+  id: string;
+  label: string;
+  logoSrc?: string;
+};
+
+export const clientLogoPlaceholders: ClientLogoPlaceholder[] = [
+  { id: "j-lim", label: "J Lim" },
+  { id: "petal-story", label: "Petal Story" },
+  { id: "topwoods", label: "TopWoods" },
+  { id: "client-4", label: "Client logo" },
+  { id: "client-5", label: "Client logo" },
+  { id: "client-6", label: "Client logo" },
 ];
+
+export const faqSection = {
+  subhead:
+    "Straight answers before you commit, no jargon, no guaranteed rankings.",
+  askCta: { label: "Ask a question", href: "/contact" },
+} as const;
+
+export const inlineCta = {
+  headline: "Tell us what you're building.",
+  supportBlurb:
+    "Reach out anytime — we'll recommend a clear next step based on your business, not a fixed package.",
+  managerName: "[PLACEHOLDER — Client success name]",
+  managerTitle: "Client Success",
+  submitLabel: "Get in touch",
+} as const;
 
 export const lifecycleSteps = [
   "Assess",
@@ -180,7 +391,7 @@ export const services: Service[] = [
     shortDescription:
       "Establish the essential digital infrastructure for a business entering or rebuilding its digital presence.",
     longDescription:
-      "Discovery, profiles, listings, analytics, and launch checklist — everything needed to be discoverable and credible online before you scale marketing.",
+      "Discovery, profiles, listings, analytics, and launch checklist, everything needed to be discoverable and credible online before you scale marketing.",
     bestFor:
       "businesses entering digital channels or rebuilding from scratch.",
     icon: "rocket",
@@ -192,7 +403,7 @@ export const services: Service[] = [
     shortDescription:
       "A professional website that communicates your brand and gets visitors to act.",
     longDescription:
-      "A professional website that communicates your brand and helps visitors take action — sitemap, responsive design, landing pages, CTAs, basic SEO, analytics, and launch support included.",
+      "A professional website that communicates your brand and helps visitors take action, sitemap, responsive design, landing pages, CTAs, basic SEO, analytics, and launch support included.",
     bestFor:
       "businesses without a site, or with one that's outdated.",
     icon: "globe",
@@ -204,7 +415,7 @@ export const services: Service[] = [
     shortDescription:
       "Stronger organic search visibility and a foundation for long-term discovery.",
     longDescription:
-      "Technical health, on-page optimization, local signals, and content direction aligned to how your customers search — without overpromising rankings.",
+      "Technical health, on-page optimization, local signals, and content direction aligned to how your customers search, without overpromising rankings.",
     bestFor: "businesses that want steady organic discovery over time.",
     icon: "search",
   },
@@ -237,7 +448,7 @@ export const services: Service[] = [
     shortDescription:
       "Content connected to a real business objective, not just volume.",
     longDescription:
-      "Articles, landing copy, and assets mapped to funnel stages and measurable goals — not content for its own sake.",
+      "Articles, landing copy, and assets mapped to funnel stages and measurable goals, not content for its own sake.",
     bestFor: "teams that need content tied to conversion or SEO goals.",
     icon: "fileText",
   },
@@ -279,7 +490,7 @@ export const services: Service[] = [
     shortDescription:
       "A diagnostic assessment before committing to bigger work.",
     longDescription:
-      "Full review of site, SEO, social, ads, and competitors — with a prioritized roadmap, not a generic deck.",
+      "Full review of site, SEO, social, ads, and competitors, with a prioritized roadmap, not a generic deck.",
     bestFor: "owners who want clarity before signing a larger package.",
     icon: "clipboardCheck",
   },
@@ -346,13 +557,13 @@ export const faqItems: FaqItem[] = [
     id: "digital-onboarding",
     question: "What is digital onboarding?",
     answer:
-      "The process of setting up the digital infrastructure a business needs to be discoverable, credible, and ready to acquire customers online — more than just a website.",
+      "The process of setting up the digital infrastructure a business needs to be discoverable, credible, and ready to acquire customers online, more than just a website.",
   },
   {
     id: "need-package",
     question: "Do I need a package?",
     answer:
-      "No — you can start with a single service or a full package. AdCo recommends based on your situation, not the other way around.",
+      "No, you can start with a single service or a full package. AdCo recommends based on your situation, not the other way around.",
   },
   {
     id: "build-website",
@@ -363,7 +574,7 @@ export const faqItems: FaqItem[] = [
   {
     id: "seo-only",
     question: "Can I purchase SEO without social media?",
-    answer: "Yes — every service can be purchased standalone.",
+    answer: "Yes, every service can be purchased standalone.",
   },
   {
     id: "ad-budgets",
@@ -375,7 +586,7 @@ export const faqItems: FaqItem[] = [
     id: "guarantee-rankings",
     question: "Does AdCo guarantee Google rankings?",
     answer:
-      "No — results depend on competition, content, technical health, and other factors outside any agency's full control.",
+      "No, results depend on competition, content, technical health, and other factors outside any agency's full control.",
   },
   {
     id: "existing-website",
@@ -387,12 +598,13 @@ export const faqItems: FaqItem[] = [
     id: "custom-package",
     question: "Can AdCo customize a package?",
     answer:
-      "Yes — packages are starting frameworks, not fixed products.",
+      "Yes, packages are starting frameworks, not fixed products.",
   },
   {
     id: "where-operate",
     question: "Where does AdCo operate?",
-    answer: `Bangkok, Thailand. ${placeholders.serviceAreaNote}`,
+    answer:
+      "Thailand and its provinces. Further expansion is planned for the future.",
   },
 ];
 
@@ -404,8 +616,10 @@ export const homeCtaBand = {
 export const solutionsHero = {
   headline: "Build exactly what your business needs.",
   subhead:
-    "Pick a single service, choose a complete package, or mix both — every solution is customized to your business.",
+    "Pick a single service, choose a complete package, or mix both, every solution is customized to your business.",
 } as const;
+
+const priceStart = `Starting at ${placeholders.packagePricing}`;
 
 export const packages: Package[] = [
   {
@@ -413,6 +627,7 @@ export const packages: Package[] = [
     slug: "digital-launch",
     name: "Digital Launch",
     tagline: "Establish the essential digital foundation.",
+    teaserOneLiner: "Establish the essential digital foundation.",
     includes: [
       "Discovery session",
       "Digital presence audit",
@@ -428,13 +643,17 @@ export const packages: Package[] = [
     ],
     bestFor:
       "businesses that need to establish or rebuild their digital presence.",
-    priceLabel: `Starting at ${placeholders.packagePricing}`,
+    priceLabel: priceStart,
+    priceMonthly: priceStart,
+    priceAnnual: priceStart,
   },
   {
     id: "digital-growth",
     slug: "digital-growth",
     name: "Digital Growth",
     tagline: "A consistent digital marketing engine once the foundation is in place.",
+    teaserOneLiner: "Consistent marketing once your foundation is in place.",
+    isMostPopular: true,
     includes: [
       "Everything in Digital Launch where applicable",
       "Social media management",
@@ -448,13 +667,16 @@ export const packages: Package[] = [
     ],
     bestFor:
       "businesses with the basics in place that need consistent customer acquisition.",
-    priceLabel: `Starting at ${placeholders.packagePricing} / month`,
+    priceLabel: `${priceStart} / month`,
+    priceMonthly: `${priceStart} / month`,
+    priceAnnual: `${priceStart} / month`, // TODO: annual pricing
   },
   {
     id: "digital-scale",
     slug: "digital-scale",
     name: "Digital Scale",
     tagline: "An integrated digital marketing partnership for ambitious growth.",
+    teaserOneLiner: "Integrated partnership for ambitious growth.",
     includes: [
       "Digital strategy",
       "Advanced SEO",
@@ -471,7 +693,9 @@ export const packages: Package[] = [
     ],
     bestFor:
       "established businesses wanting ongoing strategic support.",
-    priceLabel: `Starting at ${placeholders.packagePricing} / month`,
+    priceLabel: `${priceStart} / month`,
+    priceMonthly: `${priceStart} / month`,
+    priceAnnual: `${priceStart} / month`, // TODO: annual pricing
   },
   {
     id: "custom",
@@ -491,7 +715,9 @@ export const solutionsClosingCta = {
 } as const;
 
 export const contactHero = {
-  headline: homeCtaBand.headline,
+  headline: "Let's talk.",
+  subhead:
+    "Whether it's a new project or a quick question, we're here to help.",
 } as const;
 
 export const contactFormContent = {
@@ -551,6 +777,23 @@ export function getContactInterestOptions(): InterestOption[] {
   ];
 }
 
+export function findServiceById(id: string): Service | undefined {
+  return services.find((s) => s.id === id);
+}
+
 export function findServiceBySlug(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
+}
+
+export function findTestimonialById(id: string): Testimonial | undefined {
+  return testimonials.find((t) => t.id === id);
+}
+
+export function getPackagePrice(
+  pkg: Package,
+  billing: "monthly" | "annual",
+): string {
+  if (pkg.isCustom) return pkg.priceLabel;
+  if (billing === "annual" && pkg.priceAnnual) return pkg.priceAnnual;
+  return pkg.priceMonthly ?? pkg.priceLabel;
 }

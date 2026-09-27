@@ -1,6 +1,8 @@
-import { Header } from "@/components/Header";
+import { BackgroundLayer } from "@/components/BackgroundLayer";
 import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import { JsonLdLocalBusiness } from "@/components/JsonLd";
+import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { siteMeta } from "@/lib/content";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
@@ -50,12 +52,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} min-h-screen font-body antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} flex min-h-svh flex-col font-body antialiased`}
       >
-        <JsonLdLocalBusiness />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <SmoothScrollProvider>
+          <BackgroundLayer />
+          <JsonLdLocalBusiness />
+          <Header />
+          <main className="relative min-h-0 flex-1">{children}</main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

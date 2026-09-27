@@ -4,32 +4,29 @@ import {
   StaggerItem,
 } from "@/components/motion/FadeIn";
 import { lifecycleSteps, lifecycleSupportingLine } from "@/lib/content";
-import { ArrowRight } from "lucide-react";
 
 export function LifecycleStepper() {
   return (
-    <FadeIn>
-      <p className="max-w-2xl text-lg text-ink/70">{lifecycleSupportingLine}</p>
-      <StaggerChildren className="mt-10 flex gap-4 overflow-x-auto pb-2 md:grid md:grid-cols-7 md:overflow-visible">
-        {lifecycleSteps.map((step, index) => (
-          <StaggerItem key={step}>
-            <div className="min-w-[7rem] rounded-2xl border border-ink/10 bg-ink/[0.02] p-4 md:min-w-0">
-              <span className="text-xs font-semibold text-adco-blue">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <p className="mt-2 font-display text-sm font-semibold md:text-base">
-                {step}
-              </p>
-              {index < lifecycleSteps.length - 1 ? (
-                <ArrowRight
-                  className="mt-3 hidden h-4 w-4 text-ink/30 md:block"
-                  aria-hidden
-                />
-              ) : null}
-            </div>
-          </StaggerItem>
-        ))}
-      </StaggerChildren>
-    </FadeIn>
+    <section className="border-y border-ink/10 bg-white py-16 md:py-20">
+      <div className="mx-auto max-w-content px-5 md:px-8">
+        <FadeIn>
+          <p className="max-w-2xl text-lg text-ink/70">{lifecycleSupportingLine}</p>
+        </FadeIn>
+        <StaggerChildren className="mt-10 flex gap-3 overflow-x-auto pb-2 md:gap-4">
+          {lifecycleSteps.map((step, index) => (
+            <StaggerItem key={step}>
+              <div className="min-w-[8.5rem] rounded-xl border border-ink/10 bg-canvas px-5 py-6 md:min-w-[9.5rem]">
+                <span className="font-display text-2xl font-bold text-ink/15">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-3 font-display text-base font-semibold tracking-tight md:text-lg">
+                  {step}
+                </p>
+              </div>
+            </StaggerItem>
+          ))}
+        </StaggerChildren>
+      </div>
+    </section>
   );
 }

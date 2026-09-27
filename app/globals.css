@@ -3,28 +3,32 @@
 @tailwind utilities;
 
 :root {
-  --ink: #0b0b0f;
-  --adco-blue: #1e4fe0;
-  --signal-red: #e8402e;
-  --growth-green: #22c55e;
-  --white: #ffffff;
-  --background: var(--white);
+  --ink: #272727;
+  --adco-blue: #004aad;
+  --adco-purple: #6865e1;
+  --signal-red: #ee2a45;
+  --growth-green: #05d975;
+  --white: #f1f1f1;
+  --canvas: #f1f1f1;
+  --background: var(--canvas);
   --foreground: var(--ink);
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    background-color: transparent;
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-family: var(--font-body), system-ui, sans-serif;
   }
 
@@ -36,7 +40,157 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-adco-blue;
+    outline: 2px solid var(--adco-blue);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .launch-trail {
+    animation: none;
+  }
+
+  .logo-marquee-track {
+    animation: none;
+  }
+}
+
+@layer components {
+  .hero-frame {
+    position: relative;
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+    min-height: 85vh;
+    overflow: hidden;
+    border-radius: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-frame {
+      margin-left: 1.25rem;
+      margin-right: 1.25rem;
+    }
+  }
+
+  .hero-gradient {
+    background:
+      radial-gradient(
+        ellipse 90% 70% at 65% 35%,
+        rgba(0, 74, 173, 0.55) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 50% 40% at 80% 70%,
+        rgba(104, 101, 225, 0.28) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 60% 50% at 15% 85%,
+        rgba(238, 42, 69, 0.2) 0%,
+        transparent 45%
+      ),
+      linear-gradient(160deg, #272727 0%, #272727 40%, var(--ink) 100%);
+  }
+
+  .hero-grain {
+    opacity: 0.08;
+    background-image: repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.15) 0,
+      transparent 2px
+    );
+    background-size: 4px 4px;
+    mix-blend-mode: overlay;
+  }
+
+  .text-fill-image {
+    background-image: linear-gradient(
+      120deg,
+      var(--adco-blue) 0%,
+      var(--adco-purple) 45%,
+      var(--signal-red) 100%
+    );
+    background-size: 200% auto;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .corner-bracket {
+    pointer-events: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-top: 2px solid var(--signal-red);
+    border-right: 2px solid var(--signal-red);
+  }
+
+  .input-underline {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(39, 39, 39, 0.2);
+    background: transparent;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .input-underline::placeholder {
+    color: rgba(39, 39, 39, 0.4);
+  }
+
+  .input-underline:focus {
+    border-bottom-color: var(--ink);
+    outline: none;
+  }
+
+  .input-underline-light {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(241, 241, 241, 0.25);
+    background: transparent;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: var(--white);
+  }
+
+  .input-underline-light::placeholder {
+    color: rgba(241, 241, 241, 0.4);
+  }
+
+  .input-underline-light:focus {
+    border-bottom-color: var(--white);
+    outline: none;
+  }
+
+  .logo-marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+  }
+
+  .logo-marquee-track {
+    animation: logo-marquee 45s linear infinite;
+  }
+
+  @keyframes logo-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 }
 
@@ -45,27 +199,13 @@
     text-wrap: balance;
   }
 
-  .hero-gradient {
-    background:
-      radial-gradient(
-        ellipse 80% 60% at 70% 40%,
-        rgba(30, 79, 224, 0.45) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse 50% 40% at 20% 80%,
-        rgba(30, 79, 224, 0.25) 0%,
-        transparent 50%
-      ),
-      linear-gradient(165deg, var(--ink) 0%, #0a1628 45%, var(--ink) 100%);
-  }
-
   .launch-trail {
     background: linear-gradient(
       135deg,
       transparent 40%,
-      rgba(30, 79, 224, 0.6) 50%,
-      rgba(232, 64, 46, 0.3) 55%,
+      rgba(0, 74, 173, 0.5) 50%,
+      rgba(104, 101, 225, 0.35) 52%,
+      rgba(238, 42, 69, 0.25) 55%,
       transparent 65%
     );
     animation: trail-shift 8s ease-in-out infinite;
@@ -74,18 +214,12 @@
   @keyframes trail-shift {
     0%,
     100% {
-      opacity: 0.4;
-      transform: translateX(-5%) translateY(0);
+      opacity: 0.35;
+      transform: translateX(-4%) translateY(0);
     }
     50% {
-      opacity: 0.7;
-      transform: translateX(5%) translateY(-2%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .launch-trail {
-      animation: none;
+      opacity: 0.65;
+      transform: translateX(4%) translateY(-2%);
     }
   }
 }

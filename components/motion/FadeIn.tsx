@@ -21,7 +21,7 @@ export function FadeIn({ children, className, delay = 0 }: FadeInProps) {
       className={className}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "-15%" }}
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -46,7 +46,7 @@ export function StaggerChildren({ children, className }: StaggerProps) {
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "-15%" }}
       variants={{
         hidden: {},
         visible: { transition: { staggerChildren: 0.08 } },

@@ -16,7 +16,7 @@ export function JsonLdLocalBusiness() {
         name: "Thailand",
       },
     },
-    sameAs: [siteMeta.instagramUrl, siteMeta.linktreeUrl],
+    sameAs: [siteMeta.instagramUrl],
     email: contactInfo.email,
     address: {
       "@type": "PostalAddress",

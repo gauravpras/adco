@@ -29,7 +29,9 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
           </p>
         </div>
         <p
-          className="font-display text-2xl font-bold text-growth-green"
+          className={`font-display text-2xl font-bold ${
+            isDark ? "text-growth-green" : "border-b-2 border-growth-green pb-0.5 text-ink"
+          }`}
           title="Placeholder — client to confirm real metric"
         >
           {testimonial.statPlaceholder}

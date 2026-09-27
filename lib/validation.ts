@@ -16,3 +16,11 @@ export type ContactFormValues = z.infer<typeof contactSchema>;
 export const newsletterSchema = z.object({
   email: z.string().email("Enter a valid email"),
 });
+
+export const quickContactSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email"),
+  message: z.string().min(5, "Message is required"),
+});
+
+export type QuickContactValues = z.infer<typeof quickContactSchema>;

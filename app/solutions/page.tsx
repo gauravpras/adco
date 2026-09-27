@@ -1,23 +1,15 @@
-import { Button } from "@/components/Button";
-import { CTABand } from "@/components/CTABand";
-import { PackageCard } from "@/components/PackageCard";
-import { Section } from "@/components/Section";
-import { ServiceCard } from "@/components/ServiceCard";
+import { BloomHeroObserver } from "@/components/home/HomeHeroObserver";
+import { BloomSurface } from "@/components/BloomSurface";
+import { LinkArrow } from "@/components/LinkArrow";
 import { FadeIn } from "@/components/motion/FadeIn";
-import {
-  contactInterestHref,
-  packages,
-  services,
-  siteMeta,
-  solutionsClosingCta,
-  solutionsHero,
-} from "@/lib/content";
+import { SolutionsCatalog } from "@/components/SolutionsCatalog";
+import { siteMeta, solutionsClosingCta, solutionsHero } from "@/lib/content";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "À la carte digital services and bundled packages for Bangkok businesses — websites, SEO, social, ads, and more.",
+    "À la carte digital services and bundled packages for Bangkok businesses, websites, SEO, social, ads, and more.",
   openGraph: {
     title: `Solutions | ${siteMeta.name}`,
     description: solutionsHero.subhead,
@@ -26,85 +18,43 @@ export const metadata: Metadata = {
 };
 
 export default function SolutionsPage() {
-  const standardPackages = packages.filter((p) => !p.isCustom);
-  const customPackage = packages.find((p) => p.isCustom);
-
   return (
     <>
-      <Section className="border-b border-ink/10 bg-ink text-white" variant="dark">
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
-            Solutions
-          </p>
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-            {solutionsHero.headline}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-white/70">
-            {solutionsHero.subhead}
-          </p>
-        </FadeIn>
-      </Section>
-
-      <Section ariaLabelledby="alacarte-heading">
-        <FadeIn>
-          <h2
-            id="alacarte-heading"
-            className="font-display text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            À la carte
-          </h2>
-          <p className="mt-3 max-w-2xl text-ink/65">
-            Every service can be purchased on its own — no package required.
-          </p>
-        </FadeIn>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {services.map((service) => (
-            <div key={service.id} id={service.slug} className="scroll-mt-24">
-              <ServiceCard service={service} />
-              <div className="mt-4">
-                <Button
-                  href={contactInterestHref(service.slug)}
-                  variant="secondary"
-                  className="text-sm"
-                >
-                  Enquire about this service
-                </Button>
-              </div>
-            </div>
-          ))}
+      <BloomHeroObserver heroId="page-hero" />
+      <section
+        id="page-hero"
+        className="relative overflow-hidden pt-28 text-white md:pt-32"
+      >
+        <BloomSurface />
+        <div className="relative z-10 mx-auto max-w-content px-5 py-16 md:px-8 md:py-24">
+          <FadeIn>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+              Solutions
+            </p>
+            <h1 className="mt-4 max-w-4xl font-display text-[clamp(2rem,5vw,3.75rem)] font-bold leading-none tracking-tight">
+              {solutionsHero.headline}
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-white/75">
+              {solutionsHero.subhead}
+            </p>
+          </FadeIn>
         </div>
-      </Section>
+      </section>
 
-      <Section className="bg-ink/[0.02]" ariaLabelledby="packages-heading">
-        <FadeIn>
-          <h2
-            id="packages-heading"
-            className="font-display text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Packages
+      <SolutionsCatalog />
+
+      <section className="bg-ink/85 py-16 text-white backdrop-blur-sm md:py-20">
+        <div className="mx-auto flex max-w-content flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between md:px-8">
+          <h2 className="max-w-xl font-display text-3xl font-bold tracking-tight md:text-4xl">
+            {solutionsClosingCta.headline}
           </h2>
-          <p className="mt-3 max-w-2xl text-ink/65">
-            Starting frameworks — we customize scope and pricing to your
-            situation. Ad spend for paid media is billed separately.
-          </p>
-        </FadeIn>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {standardPackages.map((pkg, index) => (
-            <PackageCard key={pkg.id} pkg={pkg} featured={index === 0} />
-          ))}
+          <LinkArrow
+            href={solutionsClosingCta.button.href}
+            label={solutionsClosingCta.button.label}
+            variant="light"
+          />
         </div>
-        {customPackage ? (
-          <div className="mt-6">
-            <PackageCard pkg={customPackage} />
-          </div>
-        ) : null}
-      </Section>
-
-      <CTABand
-        headline={solutionsClosingCta.headline}
-        buttonLabel={solutionsClosingCta.button.label}
-        buttonHref={solutionsClosingCta.button.href}
-      />
+      </section>
     </>
   );
 }

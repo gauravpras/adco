@@ -94,8 +94,7 @@ export function ContactForm() {
     }
   }
 
-  const inputClass =
-    "w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-ink placeholder:text-ink/40 focus:border-adco-blue focus:outline-none";
+  const inputClass = "input-underline";
 
   if (status === "success") {
     return (

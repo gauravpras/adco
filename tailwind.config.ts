@@ -11,10 +11,13 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        ink: "var(--ink)",
-        "adco-blue": "var(--adco-blue)",
-        "signal-red": "var(--signal-red)",
-        "growth-green": "var(--growth-green)",
+        canvas: "rgb(from var(--canvas) r g b / <alpha-value>)",
+        ink: "rgb(from var(--ink) r g b / <alpha-value>)",
+        white: "rgb(from var(--white) r g b / <alpha-value>)",
+        "adco-blue": "rgb(from var(--adco-blue) r g b / <alpha-value>)",
+        "adco-purple": "rgb(from var(--adco-purple) r g b / <alpha-value>)",
+        "signal-red": "rgb(from var(--signal-red) r g b / <alpha-value>)",
+        "growth-green": "rgb(from var(--growth-green) r g b / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
