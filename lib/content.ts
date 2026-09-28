@@ -40,6 +40,7 @@ export interface Service {
   shortDescription: string;
   longDescription: string;
   bestFor: string;
+  priceRange: string;
   icon: ServiceIconKey;
 }
 
@@ -53,6 +54,10 @@ export interface Package {
   priceLabel: string;
   priceMonthly?: string;
   priceAnnual?: string;
+  priceSubline?: string;
+  priceSublineMonthly?: string;
+  priceSublineAnnual?: string;
+  isOneTime?: boolean;
   teaserOneLiner?: string;
   isMostPopular?: boolean;
   isCustom?: boolean;
@@ -118,6 +123,9 @@ export const siteMeta = {
   location: "Bangkok, Thailand",
 } as const;
 
+export const bookingUrl =
+  "https://calendar.app.google/8SNs3iWK2SYJMwk77" as const;
+
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/solutions", label: "Solutions" },
@@ -146,15 +154,55 @@ export const footerContent = {
       title: "Social",
       links: [
         { href: siteMeta.instagramUrl, label: siteMeta.instagram, external: true },
+        { href: "/blog", label: "Blog" },
       ],
     },
   ],
 } as const;
 
+export const blogHero = {
+  headline: "Insights from AdCoSphere",
+  subhead:
+    "Digital marketing and onboarding notes for Bangkok businesses. New articles coming soon.",
+} as const;
+
+export const blogPosts = [
+  {
+    slug: "sample-post-1",
+    title: "[PLACEHOLDER — Post title]",
+    excerpt:
+      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
+    date: "[PLACEHOLDER — Date]",
+    visualSlug: "content-marketing",
+  },
+  {
+    slug: "sample-post-2",
+    title: "[PLACEHOLDER — Post title]",
+    excerpt:
+      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
+    date: "[PLACEHOLDER — Date]",
+    visualSlug: "seo",
+  },
+  {
+    slug: "sample-post-3",
+    title: "[PLACEHOLDER — Post title]",
+    excerpt:
+      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
+    date: "[PLACEHOLDER — Date]",
+    visualSlug: "social-media",
+  },
+] as const;
+
+export type BlogPost = (typeof blogPosts)[number];
+
+export function findBlogPostBySlug(slug: string): BlogPost | undefined {
+  return blogPosts.find((post) => post.slug === slug);
+}
+
 export const headerContact = {
   phone: placeholders.phone,
   email: placeholders.email,
-  auditCta: { label: "Book a Free Audit", href: "/contact" },
+  auditCta: { label: "Book a Free Audit", href: bookingUrl },
 } as const;
 
 export const contactInfo = {
@@ -173,7 +221,7 @@ export const heroContent = {
   headlineLine2: "Launchpad for Business.",
   subhead:
     "From digital onboarding and websites to SEO, social, advertising, and analytics, we build custom digital systems around the business you envision.",
-  primaryCta: { label: "Get Your Free Digital Audit", href: "/contact" },
+  primaryCta: { label: "Get Your Free Digital Audit", href: bookingUrl },
   secondaryCta: { label: "See what we do", href: "/solutions" },
 } as const;
 
@@ -186,7 +234,7 @@ export const heroTags = [
 
 export const statsSection = {
   headline: "Our work speaks through numbers.",
-  cta: { label: "Start Your Audit", href: "/contact" },
+  cta: { label: "Start Your Audit", href: bookingUrl },
   stats: [
     {
       value: "70,000+",
@@ -295,7 +343,7 @@ export const pricingTeaser = {
 export const pricingToggle = {
   monthly: "Monthly",
   annual: "Annual",
-  annualBadge: `Save ${placeholders.annualDiscount}%`, // TODO: client to confirm final pricing
+  annualBadge: "Save 17%",
 } as const;
 
 /** @deprecated use statsSection.stats */
@@ -321,7 +369,7 @@ export const processSection = {
   headline: "Our process",
   subhead:
     "Four stages keep you informed from first audit through ongoing optimization.",
-  cta: { label: "Schedule a Free Audit", href: "/contact" },
+  cta: { label: "Schedule a Free Audit", href: bookingUrl },
 } as const;
 
 export const successStoriesSection = {
@@ -382,6 +430,9 @@ export const servicesPreviewCta = {
   href: "/solutions",
 } as const;
 
+export const servicePriceDisclaimer =
+  "Pricing is indicative and depends on scope and complexity. Final fees are confirmed in a written proposal following a discovery call. Excludes VAT and third-party costs (such as advertising spend, hosting, domains and software).";
+
 export const services: Service[] = [
   {
     id: "digital-onboarding",
@@ -393,6 +444,7 @@ export const services: Service[] = [
       "Discovery, profiles, listings, analytics, and launch checklist, everything needed to be discoverable and credible online before you scale marketing.",
     bestFor:
       "businesses entering digital channels or rebuilding from scratch.",
+    priceRange: "฿29,900 – ฿80,000 · one-time project",
     icon: "rocket",
   },
   {
@@ -405,6 +457,8 @@ export const services: Service[] = [
       "A professional website that communicates your brand and helps visitors take action, sitemap, responsive design, landing pages, CTAs, basic SEO, analytics, and launch support included.",
     bestFor:
       "businesses without a site, or with one that's outdated.",
+    priceRange:
+      "Starter ฿5,000 – ฿30,000\nGrowth ฿30,000 – ฿90,000\nPro ฿90,000 – ฿150,000",
     icon: "globe",
   },
   {
@@ -416,6 +470,7 @@ export const services: Service[] = [
     longDescription:
       "Technical health, on-page optimization, local signals, and content direction aligned to how your customers search, without overpromising rankings.",
     bestFor: "businesses that want steady organic discovery over time.",
+    priceRange: "฿15,000 – ฿60,000 per month",
     icon: "search",
   },
   {
@@ -427,6 +482,7 @@ export const services: Service[] = [
     longDescription:
       "Channel strategy, content calendars, creative direction, and community engagement tuned to your brand voice and Bangkok market.",
     bestFor: "brands building trust and recall on social platforms.",
+    priceRange: "฿12,000 – ฿40,000 per month · excludes ad spend",
     icon: "share2",
   },
   {
@@ -438,6 +494,8 @@ export const services: Service[] = [
     longDescription:
       "Campaign setup and management across search and social. Ad spend is billed separately and disclosed upfront.",
     bestFor: "businesses ready to pay for predictable reach and leads.",
+    priceRange:
+      "฿10,000 – ฿40,000 per month management fee · ad spend is billed separately",
     icon: "megaphone",
   },
   {
@@ -449,6 +507,7 @@ export const services: Service[] = [
     longDescription:
       "Articles, landing copy, and assets mapped to funnel stages and measurable goals, not content for its own sake.",
     bestFor: "teams that need content tied to conversion or SEO goals.",
+    priceRange: "฿10,000 – ฿40,000 per month",
     icon: "fileText",
   },
   {
@@ -460,6 +519,8 @@ export const services: Service[] = [
     longDescription:
       "List setup, automations, CRM integration, and campaigns that keep customers coming back after the first visit.",
     bestFor: "businesses with repeat customers or longer sales cycles.",
+    priceRange:
+      "฿10,000 – ฿40,000 per month for campaigns · one-time CRM setup ฿15,000 – ฿60,000",
     icon: "mail",
   },
   {
@@ -470,6 +531,8 @@ export const services: Service[] = [
     longDescription:
       "Google Business Profile optimization, local listings, reviews strategy, and maps visibility for Bangkok customers.",
     bestFor: "location-based and service-area businesses.",
+    priceRange:
+      "One-time setup ฿5,000 – ฿20,000 · ongoing management ฿5,000 – ฿15,000 per month",
     icon: "mapPin",
   },
   {
@@ -480,6 +543,8 @@ export const services: Service[] = [
     longDescription:
       "GA4, pixels, conversion events, and dashboards so you know what's working before you scale spend.",
     bestFor: "any business investing in marketing without clear numbers today.",
+    priceRange:
+      "One-time setup ฿8,000 – ฿35,000 · ongoing reporting ฿5,000 – ฿20,000 per month",
     icon: "barChart",
   },
   {
@@ -491,6 +556,7 @@ export const services: Service[] = [
     longDescription:
       "Full review of site, SEO, social, ads, and competitors, with a prioritized roadmap, not a generic deck.",
     bestFor: "owners who want clarity before signing a larger package.",
+    priceRange: "฿10,000 – ฿45,000 · one-time",
     icon: "clipboardCheck",
   },
 ];
@@ -609,7 +675,7 @@ export const faqItems: FaqItem[] = [
 
 export const homeCtaBand = {
   headline: "Let's build your digital launchpad.",
-  button: { label: "Start with a Free Audit", href: "/contact" },
+  button: { label: "Start with a Free Audit", href: bookingUrl },
 } as const;
 
 export const solutionsHero = {
@@ -643,8 +709,10 @@ export const packages: Package[] = [
     bestFor:
       "businesses that need to establish or rebuild their digital presence.",
     priceLabel: priceStart,
-    priceMonthly: priceStart,
-    priceAnnual: priceStart,
+    priceMonthly: "฿29,900 one-time",
+    priceAnnual: "฿29,900 one-time",
+    isOneTime: true,
+    priceSubline: "One-time project, same price on monthly or annual",
   },
   {
     id: "digital-growth",
@@ -667,8 +735,10 @@ export const packages: Package[] = [
     bestFor:
       "businesses with the basics in place that need consistent customer acquisition.",
     priceLabel: `${priceStart} / month`,
-    priceMonthly: `${priceStart} / month`,
-    priceAnnual: `${priceStart} / month`, // TODO: annual pricing
+    priceMonthly: "฿36,000 / month",
+    priceAnnual: "฿30,000 / month",
+    priceSublineMonthly: "Billed monthly",
+    priceSublineAnnual: "Billed annually at ฿360,000 (2 months free)",
   },
   {
     id: "digital-scale",
@@ -677,6 +747,7 @@ export const packages: Package[] = [
     tagline: "An integrated digital marketing partnership for ambitious growth.",
     teaserOneLiner: "Integrated partnership for ambitious growth.",
     includes: [
+      "Everything in Digital Growth",
       "Digital strategy",
       "Advanced SEO",
       "Content marketing",
@@ -693,8 +764,10 @@ export const packages: Package[] = [
     bestFor:
       "established businesses wanting ongoing strategic support.",
     priceLabel: `${priceStart} / month`,
-    priceMonthly: `${priceStart} / month`,
-    priceAnnual: `${priceStart} / month`, // TODO: annual pricing
+    priceMonthly: "฿75,000 / month",
+    priceAnnual: "฿62,500 / month",
+    priceSublineMonthly: "Billed monthly",
+    priceSublineAnnual: "Billed annually at ฿750,000 (2 months free)",
   },
   {
     id: "custom",
@@ -710,7 +783,7 @@ export const packages: Package[] = [
 
 export const solutionsClosingCta = {
   headline: "Not sure what you need? We'll build the roadmap with you.",
-  button: { label: "Get in Touch", href: "/contact" },
+  button: { label: "Get in Touch", href: bookingUrl },
 } as const;
 
 export const contactHero = {
@@ -793,6 +866,17 @@ export function getPackagePrice(
   billing: "monthly" | "annual",
 ): string {
   if (pkg.isCustom) return pkg.priceLabel;
+  if (pkg.isOneTime && pkg.priceMonthly) return pkg.priceMonthly;
   if (billing === "annual" && pkg.priceAnnual) return pkg.priceAnnual;
   return pkg.priceMonthly ?? pkg.priceLabel;
+}
+
+export function getPackagePriceSubline(
+  pkg: Package,
+  billing: "monthly" | "annual",
+): string | undefined {
+  if (pkg.isCustom) return undefined;
+  if (pkg.isOneTime) return pkg.priceSubline;
+  if (billing === "annual") return pkg.priceSublineAnnual;
+  return pkg.priceSublineMonthly;
 }

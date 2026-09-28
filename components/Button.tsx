@@ -38,7 +38,8 @@ export function Button({
   const classes = `${base} ${variants[variant]} ${className}`;
 
   if (href) {
-    if (external) {
+    const isExternal = external ?? href.startsWith("http");
+    if (isExternal) {
       return (
         <a
           href={href}

@@ -270,6 +270,78 @@
       background-position: 100% 50%;
     }
   }
+
+  .fast-track-quote {
+    isolation: isolate;
+    color: #f1f1f1;
+    background-color: #ee2a45;
+  }
+
+  .fast-track-quote::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 220%;
+    background: linear-gradient(
+      to top,
+      #f1f1f1 0%,
+      #05d975 30%,
+      #ee2a45 58%,
+      #ee2a45 100%
+    );
+    opacity: 0;
+    transform: translateY(58%);
+    pointer-events: none;
+  }
+
+  .fast-track-quote:hover {
+    animation: rocket-booster-text 0.8s ease-out forwards;
+  }
+
+  .fast-track-quote:hover::before {
+    opacity: 1;
+    animation: rocket-booster 0.8s ease-out forwards;
+  }
+
+  @keyframes rocket-booster {
+    0% {
+      transform: translateY(58%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes rocket-booster-text {
+    0%,
+    45% {
+      color: #f1f1f1;
+    }
+    100% {
+      color: #272727;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fast-track-quote:hover,
+    .fast-track-quote:hover::before {
+      animation: none;
+    }
+
+    .fast-track-quote:hover {
+      color: #272727;
+    }
+
+    .fast-track-quote:hover::before {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @layer utilities {

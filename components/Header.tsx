@@ -2,7 +2,7 @@
 
 import { LinkArrow } from "@/components/LinkArrow";
 import { Logo } from "@/components/Logo";
-import { contactInfo, headerContact, heroContent, navLinks } from "@/lib/content";
+import { contactInfo, headerContact, heroContent, navLinks, bookingUrl } from "@/lib/content";
 import { subscribeHomeHeroVisible } from "@/lib/homeScrollState";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +16,13 @@ export function Header({ overlay }: HeaderProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isBloomChrome =
-    isHome || pathname === "/solutions" || pathname === "/contact";
+    isHome ||
+    pathname === "/solutions" ||
+    pathname === "/contact" ||
+    pathname === "/privacy" ||
+    pathname === "/terms" ||
+    pathname === "/blog" ||
+    pathname.startsWith("/blog/");
   const useOverlay = overlay ?? isBloomChrome;
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -212,7 +218,7 @@ export function Header({ overlay }: HeaderProps) {
               </a>
               <p>{contactInfo.location}</p>
               <div className="pt-6">
-                <LinkArrow href="/contact" label="Let's talk" variant="light" />
+                <LinkArrow href={bookingUrl} label="Let's talk" variant="light" />
               </div>
             </div>
           </div>

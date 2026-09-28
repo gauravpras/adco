@@ -55,7 +55,7 @@ export function PricingTeaser() {
                       featured ? "text-white" : "text-ink"
                     }`}
                   >
-                    {pkg.priceMonthly ?? pkg.priceLabel}
+                    {pkg.priceLabel}
                   </p>
                   <Link
                     href={`/solutions#packages-heading`}

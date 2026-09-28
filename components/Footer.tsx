@@ -30,7 +30,13 @@ export function Footer({ embedded = false }: FooterProps) {
   }
 
   const darkFooter =
-    embedded || pathname === "/solutions" || pathname === "/contact";
+    embedded ||
+    pathname === "/solutions" ||
+    pathname === "/contact" ||
+    pathname === "/privacy" ||
+    pathname === "/terms" ||
+    pathname === "/blog" ||
+    pathname.startsWith("/blog/");
 
   async function onNewsletterSubmit(e: React.FormEvent) {
     e.preventDefault();

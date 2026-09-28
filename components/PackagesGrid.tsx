@@ -9,7 +9,6 @@ import { useState } from "react";
 export function PackagesGrid() {
   const [billing, setBilling] = useState<BillingPeriod>("monthly");
   const standardPackages = packages.filter((p) => !p.isCustom);
-  const customPackage = packages.find((p) => p.isCustom);
 
   return (
     <>
@@ -26,11 +25,10 @@ export function PackagesGrid() {
           />
         ))}
       </div>
-      {customPackage ? (
-        <div className="mt-8 border-t border-ink/15 pt-8">
-          <PackageCard pkg={customPackage} billing={billing} />
-        </div>
-      ) : null}
+      <p className="mt-8 max-w-2xl text-sm text-ink/65">
+        Prices in Thai baht, excluding VAT. Packages are starting points and are
+        customized to your business.
+      </p>
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { PackagesGrid } from "@/components/PackagesGrid";
-import { AbstractVisual } from "@/components/AbstractVisual";
+import { ServiceAlacarteVisual } from "@/components/ServiceAlacarteVisual";
 import { ServiceDetailModal } from "@/components/ServiceDetailModal";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { useSmoothScroll } from "@/components/SmoothScrollProvider";
@@ -151,8 +151,6 @@ function AlacartePanel() {
         <ul className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3 lg:gap-6">
           {services.map((service) => {
             const Icon = getServiceIcon(service.icon);
-            const visualVariant =
-              service.slug.length % 2 === 0 ? "mesh" : "motif";
             return (
               <li key={service.id} className="min-w-0">
                 <button
@@ -162,11 +160,7 @@ function AlacartePanel() {
                   onClick={() => setSelectedService(service)}
                 >
                   <div className="relative min-h-[7.5rem] w-full md:min-h-[9rem]">
-                    <AbstractVisual
-                      alt=""
-                      variant={visualVariant}
-                      className="absolute inset-0 h-full w-full"
-                    />
+                    <ServiceAlacarteVisual slug={service.slug} />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
                     <span className="absolute left-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/15 text-white backdrop-blur-sm">
                       <Icon className="h-5 w-5" aria-hidden />

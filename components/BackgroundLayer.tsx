@@ -178,7 +178,13 @@ export function BackgroundLayer() {
   if (pathname === "/solutions") {
     return <SolutionsBackground />;
   }
-  if (pathname === "/contact") {
+  if (
+    pathname === "/contact" ||
+    pathname === "/privacy" ||
+    pathname === "/terms" ||
+    pathname === "/blog" ||
+    pathname.startsWith("/blog/")
+  ) {
     return <ContactBackground />;
   }
   return <ScrollBackground />;

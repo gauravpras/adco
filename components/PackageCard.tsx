@@ -1,5 +1,5 @@
 import type { Package } from "@/lib/content";
-import { contactInterestHref, getPackagePrice } from "@/lib/content";
+import { bookingUrl, getPackagePrice, getPackagePriceSubline } from "@/lib/content";
 import { LinkArrow } from "@/components/LinkArrow";
 import type { BillingPeriod } from "@/components/PricingToggle";
 import { Check } from "lucide-react";
@@ -13,13 +13,14 @@ type PackageCardProps = {
 export function PackageCard({ pkg, featured, billing = "monthly" }: PackageCardProps) {
   const isFeatured = featured ?? pkg.isMostPopular;
   const price = getPackagePrice(pkg, billing);
+  const priceSubline = getPackagePriceSubline(pkg, billing);
   if (pkg.isCustom) {
     return (
       <div className="flex h-full flex-col rounded-2xl border border-white/20 bg-adco-purple p-8 text-white shadow-lg shadow-adco-purple/20">
         <h3 className="font-display text-2xl font-bold">{pkg.name}</h3>
         <p className="mt-2 text-white/85">{pkg.tagline}</p>
         <div className="mt-auto pt-8">
-          <LinkArrow href="/contact" label="Get in Touch" variant="light" accent="red" />
+          <LinkArrow href={bookingUrl} label="Get in Touch" variant="light" accent="red" />
         </div>
       </div>
     );
@@ -52,6 +53,15 @@ export function PackageCard({ pkg, featured, billing = "monthly" }: PackageCardP
       >
         {price}
       </p>
+      {priceSubline ? (
+        <p
+          className={`mt-1 text-xs ${
+            isFeatured ? "text-white/60" : "text-ink/50"
+          }`}
+        >
+          {priceSubline}
+        </p>
+      ) : null}
       <ul className="mt-6 flex-1 space-y-2">
         {pkg.includes.map((item) => (
           <li
@@ -79,7 +89,7 @@ export function PackageCard({ pkg, featured, billing = "monthly" }: PackageCardP
       </p>
       <div className="mt-6">
         <LinkArrow
-          href={contactInterestHref(pkg.slug)}
+          href={bookingUrl}
           label="Choose this plan"
           variant={isFeatured ? "light" : "dark"}
         />
