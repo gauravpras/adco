@@ -2,6 +2,7 @@
 
 import { setDocumentScrollProgress } from "@/lib/scrollProgress";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -40,6 +41,8 @@ type SmoothScrollProviderProps = {
 };
 
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
+  const pathname = usePathname();
+  const isFastTrack = pathname === "/fast-track-quote";
   const lenisRef = useRef<Lenis | null>(null);
   const reducedMotionRef = useRef(false);
 
@@ -65,6 +68,11 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   );
 
   useEffect(() => {
+    if (isFastTrack) {
+      setDocumentScrollProgress(0);
+      return;
+    }
+
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     reducedMotionRef.current = media.matches;
 
@@ -109,7 +117,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       lenisRef.current = null;
       setDocumentScrollProgress(0);
     };
-  }, []);
+  }, [isFastTrack]);
 
   return (
     <SmoothScrollContext.Provider value={{ scrollTo }}>

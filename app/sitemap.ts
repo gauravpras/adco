@@ -1,3 +1,4 @@
+import { blogPosts } from "@/lib/content";
 import type { MetadataRoute } from "next";
 
 const baseUrl =
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms",
     "/blog",
+    ...blogPosts.map((post) => `/blog/${post.slug}`),
   ];
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
@@ -21,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? "weekly"
         : route === "/privacy" || route === "/terms"
           ? "yearly"
-          : route === "/blog"
+          : route === "/blog" || route.startsWith("/blog/")
             ? "weekly"
             : "monthly",
     priority:
@@ -31,6 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
           ? 0.3
           : route === "/blog"
             ? 0.6
-            : 0.8,
+            : route.startsWith("/blog/")
+              ? 0.5
+              : 0.8,
   }));
 }

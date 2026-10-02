@@ -25,7 +25,7 @@ export default function SolutionsPage() {
         id="page-hero"
         className="relative overflow-hidden pt-28 text-white md:pt-32"
       >
-        <BloomSurface />
+        <BloomSurface variant="solutions" />
         <div className="relative z-10 mx-auto max-w-content px-5 py-16 md:px-8 md:py-24">
           <FadeIn>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">

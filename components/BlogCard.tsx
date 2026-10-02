@@ -1,5 +1,5 @@
 import { ServiceAlacarteVisual } from "@/components/ServiceAlacarteVisual";
-import type { BlogPost } from "@/lib/content";
+import { formatBlogDate, type BlogPost } from "@/lib/content";
 import { FileText } from "lucide-react";
 import Link from "next/link";
 
@@ -23,7 +23,7 @@ export function BlogCard({ post }: BlogCardProps) {
         </div>
         <div className="flex flex-1 flex-col px-4 py-4 md:px-5 md:py-5">
           <p className="text-xs font-medium uppercase tracking-wider text-ink/45">
-            {post.date}
+            {formatBlogDate(post.date)}
           </p>
           <h2 className="mt-2 font-display text-base font-semibold leading-snug tracking-tight text-ink group-hover:text-adco-blue md:text-lg">
             {post.title}

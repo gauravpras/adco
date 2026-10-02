@@ -7,7 +7,7 @@ function ReportMockup() {
       viewBox="0 0 400 280"
       className="h-full w-full"
       role="img"
-      aria-label={featureShowcase.mockupCaption}
+      aria-label="Illustration of a performance report dashboard"
     >
       <rect width="400" height="280" rx="16" fill="#272727" />
       <rect x="24" y="24" width="120" height="12" rx="4" fill="#004AAD" opacity="0.9" />
@@ -57,7 +57,6 @@ export function FeatureShowcase() {
             <div className="overflow-hidden rounded-2xl border border-ink/10 bg-white p-4 shadow-lg">
               <ReportMockup />
             </div>
-            <p className="mt-4 text-xs text-ink/50">{featureShowcase.mockupCaption}</p>
           </FadeIn>
         </div>
       </div>

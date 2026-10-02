@@ -107,8 +107,6 @@ export function ServiceDetailModal({ service, onClose }: ServiceDetailModalProps
             {service.slug === "website-design" ? (
               <Link
                 href="/fast-track-quote"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="fast-track-quote relative inline-flex items-center justify-center gap-2 self-end overflow-hidden rounded-full border border-transparent px-5 py-2.5 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-adco-blue"
               >
                 <svg

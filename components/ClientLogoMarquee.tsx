@@ -1,51 +1,50 @@
 "use client";
 
-import { clientLogoPlaceholders, localBusinessesSection } from "@/lib/content";
+import { clientLogos, localBusinessesSection } from "@/lib/content";
 import { FadeIn } from "@/components/motion/FadeIn";
 import Image from "next/image";
 
-function LogoSlot({
+function ClientLogoItem({
   label,
   logoSrc,
+  width,
+  height,
+  href,
 }: {
   label: string;
-  logoSrc?: string;
+  logoSrc: string;
+  width: number;
+  height: number;
+  href?: string;
 }) {
-  return (
-    <li
-      className="flex h-14 w-[140px] shrink-0 items-center justify-center rounded-xl border border-white/25 bg-white/10 px-4"
-      aria-label={label}
-    >
-      {logoSrc ? (
-        <Image
-          src={logoSrc}
-          alt=""
-          width={120}
-          height={48}
-          className="max-h-10 w-auto object-contain"
-        />
-      ) : (
-        <span className="text-center text-xs font-semibold uppercase tracking-wider text-white/70">
-          {label}
-        </span>
-      )}
-    </li>
+  const image = (
+    <Image
+      src={logoSrc}
+      alt={label}
+      width={width}
+      height={height}
+      className="h-14 w-auto md:h-16"
+    />
   );
-}
 
-function MarqueeTrack() {
-  const items = [...clientLogoPlaceholders, ...clientLogoPlaceholders];
+  if (href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex shrink-0 items-center justify-center transition opacity-90 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+        aria-label={`${label} (opens in new tab)`}
+      >
+        {image}
+      </a>
+    );
+  }
 
   return (
-    <ul className="logo-marquee-track flex w-max items-center gap-6 pr-6">
-      {items.map((client, index) => (
-        <LogoSlot
-          key={`${client.id}-${index}`}
-          label={client.label}
-          logoSrc={client.logoSrc}
-        />
-      ))}
-    </ul>
+    <div className="flex shrink-0 items-center justify-center" aria-label={label}>
+      {image}
+    </div>
   );
 }
 
@@ -59,12 +58,32 @@ export function LocalBusinessesSection() {
           </h2>
           <p className="mt-4 text-white/80">{localBusinessesSection.subhead}</p>
         </FadeIn>
-      </div>
 
-      <div className="logo-marquee-mask relative mt-12 w-full">
-        <div className="logo-marquee flex overflow-hidden">
-          <MarqueeTrack />
-        </div>
+        <FadeIn className="mt-12">
+          <div className="logo-marquee-mask overflow-hidden">
+            <div className="logo-marquee-track flex w-max">
+              {[0, 1].map((copy) => (
+                <ul
+                  key={copy}
+                  className="flex shrink-0 items-center gap-x-12 pr-12 md:gap-x-16 md:pr-16"
+                  aria-hidden={copy === 1 ? true : undefined}
+                >
+                  {clientLogos.map((client) => (
+                    <li key={`${copy}-${client.id}`}>
+                      <ClientLogoItem
+                        label={client.label}
+                        logoSrc={client.logoSrc}
+                        width={client.width}
+                        height={client.height}
+                        href={client.href}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

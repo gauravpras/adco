@@ -3,6 +3,16 @@
  * Edit strings here — avoid scattering copy in JSX.
  */
 
+import {
+  blogPosts,
+  findBlogPostBySlug,
+  formatBlogDate,
+  relatedBlogPosts,
+} from "@/lib/blog-posts";
+
+export type { BlogCta, BlogFaq, BlogImageBrief, BlogPost } from "@/lib/blog-posts";
+export { blogPosts, findBlogPostBySlug, formatBlogDate, relatedBlogPosts };
+
 export const placeholders = {
   // TODO: client to confirm final pricing
   packagePricing: "฿[PLACEHOLDER]",
@@ -91,6 +101,8 @@ export interface StatItem {
   /** Numeric target for count-up animation; omit for non-numeric stats */
   countTarget?: number;
   suffix?: string;
+  /** Client-side description variant (e.g. rolling “as of” date) */
+  dynamicDescription?: "satisfactionAsOf";
 }
 
 export interface WorkGridItem {
@@ -163,41 +175,8 @@ export const footerContent = {
 export const blogHero = {
   headline: "Insights from AdCoSphere",
   subhead:
-    "Digital marketing and onboarding notes for Bangkok businesses. New articles coming soon.",
+    "Digital marketing and onboarding notes for Bangkok businesses.",
 } as const;
-
-export const blogPosts = [
-  {
-    slug: "sample-post-1",
-    title: "[PLACEHOLDER — Post title]",
-    excerpt:
-      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
-    date: "[PLACEHOLDER — Date]",
-    visualSlug: "content-marketing",
-  },
-  {
-    slug: "sample-post-2",
-    title: "[PLACEHOLDER — Post title]",
-    excerpt:
-      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
-    date: "[PLACEHOLDER — Date]",
-    visualSlug: "seo",
-  },
-  {
-    slug: "sample-post-3",
-    title: "[PLACEHOLDER — Post title]",
-    excerpt:
-      "[PLACEHOLDER — Short excerpt for this article. Replace with a one- or two-line summary.]",
-    date: "[PLACEHOLDER — Date]",
-    visualSlug: "social-media",
-  },
-] as const;
-
-export type BlogPost = (typeof blogPosts)[number];
-
-export function findBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug);
-}
 
 export const headerContact = {
   phone: placeholders.phone,
@@ -244,22 +223,27 @@ export const statsSection = {
       suffix: "+",
     },
     {
-      value: `${placeholders.statBusinessesOnboarded}`,
-      title: "Businesses digitally onboarded",
-      description: "Placeholder, client to confirm final count.",
-      isPlaceholder: true,
+      value: "8",
+      title: "Businesses successfully delivered",
+      description:
+        "Full-funnel engagements completed, from launch to sustained growth.",
+      countTarget: 8,
     },
     {
-      value: placeholders.statClientSatisfaction,
+      value: "100%",
       title: "Client satisfaction rate",
-      description: "Placeholder, client to confirm.",
-      isPlaceholder: true,
+      description: "",
+      dynamicDescription: "satisfactionAsOf",
+      countTarget: 100,
+      suffix: "%",
     },
     {
-      value: `${placeholders.statYearsExpertise}`,
+      value: "8+",
       title: "Years of expertise",
-      description: "Placeholder, client to confirm.",
-      isPlaceholder: true,
+      description:
+        "Strategy, creative, and performance marketing across industries.",
+      countTarget: 8,
+      suffix: "+",
     },
   ] satisfies StatItem[],
 };
@@ -289,7 +273,7 @@ export const featureShowcase = {
         "No two businesses get the same plan. Yours is built around your goals, budget, and audience.",
     },
   ],
-  mockupCaption: "Sample performance summary, your reports are tailored to your business.",
+  mockupCaption: "",
 } as const;
 
 export const clientWinsSection = {
@@ -382,20 +366,82 @@ export const localBusinessesSection = {
   subhead: "Bangkok brands we are proud to partner with.",
 } as const;
 
+export type ClientLogo = {
+  id: string;
+  label: string;
+  logoSrc: string;
+  width: number;
+  height: number;
+  href?: string;
+};
+
+export const clientLogos: ClientLogo[] = [
+  {
+    id: "gxry",
+    label: "GXRY",
+    logoSrc: "/images/clients/gxry.png",
+    width: 999,
+    height: 342,
+    href: "https://gxry.live/",
+  },
+  {
+    id: "petal-story",
+    label: "Petal Story",
+    logoSrc: "/images/clients/petal-story.png",
+    width: 323,
+    height: 185,
+  },
+  {
+    id: "j-lim",
+    label: "J Lim",
+    logoSrc: "/images/clients/j-lim.png",
+    width: 160,
+    height: 161,
+  },
+  {
+    id: "topwoods",
+    label: "TopWoods",
+    logoSrc: "/images/clients/topwoods.png",
+    width: 143,
+    height: 79,
+  },
+  {
+    id: "steve-pariani",
+    label: "Steve Pariani",
+    logoSrc: "/images/clients/steve-pariani.png",
+    width: 1024,
+    height: 403,
+    href: "https://stevepariani.com/",
+  },
+  {
+    id: "chef-rashi-kaur",
+    label: "Chef Rashi Kaur",
+    logoSrc: "/images/clients/chef-rashi-kaur.png",
+    width: 290,
+    height: 80,
+    href: "https://www.chefrashik.com/",
+  },
+  {
+    id: "horizon",
+    label: "Horizon",
+    logoSrc: "/images/clients/horizon.png",
+    width: 96,
+    height: 83,
+    href: "https://www.horizon1stop.com/",
+  },
+];
+
+/** @deprecated use clientLogos */
 export type ClientLogoPlaceholder = {
   id: string;
   label: string;
   logoSrc?: string;
 };
 
-export const clientLogoPlaceholders: ClientLogoPlaceholder[] = [
-  { id: "j-lim", label: "J Lim" },
-  { id: "petal-story", label: "Petal Story" },
-  { id: "topwoods", label: "TopWoods" },
-  { id: "client-4", label: "Client logo" },
-  { id: "client-5", label: "Client logo" },
-  { id: "client-6", label: "Client logo" },
-];
+/** @deprecated use clientLogos */
+export const clientLogoPlaceholders: ClientLogoPlaceholder[] = clientLogos.map(
+  (c) => ({ id: c.id, label: c.label, logoSrc: c.logoSrc }),
+);
 
 export const faqSection = {
   subhead:
@@ -432,6 +478,100 @@ export const servicesPreviewCta = {
 
 export const servicePriceDisclaimer =
   "Pricing is indicative and depends on scope and complexity. Final fees are confirmed in a written proposal following a discovery call. Excludes VAT and third-party costs (such as advertising spend, hosting, domains and software).";
+
+export type FastTrackTierId = "starter" | "growth" | "pro";
+
+export type FastTrackTier = {
+  id: FastTrackTierId;
+  label: string;
+  description: string;
+  min: number;
+  max: number;
+};
+
+export const fastTrackTiers: FastTrackTier[] = [
+  {
+    id: "starter",
+    label: "Starter",
+    description: "A small site with a few pages.",
+    min: 5000,
+    max: 30000,
+  },
+  {
+    id: "growth",
+    label: "Growth",
+    description: "A full business site.",
+    min: 30000,
+    max: 90000,
+  },
+  {
+    id: "pro",
+    label: "Pro",
+    description: "A larger custom build.",
+    min: 90000,
+    max: 150000,
+  },
+];
+
+export type FastTrackAddon = {
+  id: string;
+  label: string;
+  /** TODO: client to confirm */
+  weight: number;
+  note?: string;
+};
+
+export const fastTrackAddons: FastTrackAddon[] = [
+  {
+    id: "digital-onboarding",
+    label: "Digital Onboarding",
+    weight: 12000, // TODO: client to confirm
+  },
+  {
+    id: "seo",
+    label: "SEO",
+    weight: 10000, // TODO: client to confirm
+  },
+  {
+    id: "social-media",
+    label: "Social Media Marketing",
+    weight: 8000, // TODO: client to confirm
+  },
+  {
+    id: "content-marketing",
+    label: "Content Marketing",
+    weight: 7000, // TODO: client to confirm
+  },
+  {
+    id: "paid-ads",
+    label: "Paid Advertising",
+    weight: 6000, // TODO: client to confirm
+    note: "Management fee only. Ad spend is billed separately.",
+  },
+  {
+    id: "email-crm",
+    label: "Email and CRM Marketing",
+    weight: 9000, // TODO: client to confirm
+  },
+  {
+    id: "digital-audit",
+    label: "Digital Audit and Strategy",
+    weight: 5000, // TODO: client to confirm
+  },
+  {
+    id: "google-business",
+    label: "Google Business and Local Presence",
+    weight: 4000, // TODO: client to confirm
+  },
+  {
+    id: "analytics",
+    label: "Analytics and Tracking",
+    weight: 3000, // TODO: client to confirm
+  },
+];
+
+export const fastTrackEstimateDisclaimer =
+  "This range is indicative. It excludes VAT and third-party costs, and it is confirmed in a written proposal after a discovery call.";
 
 export const services: Service[] = [
   {

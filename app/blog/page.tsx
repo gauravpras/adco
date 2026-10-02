@@ -42,9 +42,11 @@ export default function BlogPage() {
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-content px-5 md:px-8">
           <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
-            {blogPosts.map((post) => (
-              <BlogCard key={post.slug} post={post} />
-            ))}
+            {[...blogPosts]
+              .sort((a, b) => b.date.localeCompare(a.date))
+              .map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
           </ul>
         </div>
       </section>

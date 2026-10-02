@@ -51,6 +51,18 @@ function StatValue({ stat }: { stat: StatItem }) {
   );
 }
 
+function StatDescription({ stat }: { stat: StatItem }) {
+  if (stat.dynamicDescription === "satisfactionAsOf") {
+    const asOf = new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    return <>Client feedback tracked as of {asOf}.</>;
+  }
+  return <>{stat.description}</>;
+}
+
 export function StatCounter() {
   return (
     <section className="py-16 md:py-24">
@@ -67,7 +79,9 @@ export function StatCounter() {
             <div key={stat.title} className="border-t border-ink/10 pt-6">
               <StatValue stat={stat} />
               <h3 className="mt-4 font-display text-lg font-semibold">{stat.title}</h3>
-              <p className="mt-2 text-sm text-ink/60">{stat.description}</p>
+              <p className="mt-2 text-sm text-ink/60">
+                <StatDescription stat={stat} />
+              </p>
             </div>
           ))}
         </FadeIn>

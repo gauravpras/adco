@@ -1,11 +1,10 @@
-import { BackgroundLayer } from "@/components/BackgroundLayer";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { JsonLdLocalBusiness } from "@/components/JsonLd";
+import { ChromeFallback } from "@/components/ChromeFallback";
+import { SiteChrome } from "@/components/SiteChrome";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { siteMeta } from "@/lib/content";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -55,11 +54,9 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${inter.variable} flex min-h-svh flex-col font-body antialiased`}
       >
         <SmoothScrollProvider>
-          <BackgroundLayer />
-          <JsonLdLocalBusiness />
-          <Header />
-          <main className="relative min-h-0 flex-1">{children}</main>
-          <Footer />
+          <Suspense fallback={<ChromeFallback>{children}</ChromeFallback>}>
+            <SiteChrome>{children}</SiteChrome>
+          </Suspense>
         </SmoothScrollProvider>
       </body>
     </html>
